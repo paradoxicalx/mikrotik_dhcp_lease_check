@@ -1,0 +1,10 @@
+{
+    "name": "paradoxical/dhcp-look",
+    "authors": [
+        {
+            "name": "paradoxicalx",
+            "email": "paradoxical.attack@gmail.com"
+        }
+    ],
+    "require": {}
+}

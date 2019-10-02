@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>DHCP Status Check</title>
+  </head>
+  <body>
+    <div class="container">
+      <button type="button" id="reload" class="btn btn-success my-4">Refresh</button>
+      <div class="d-flex align-items-center mb-4">
+        <strong class="loading" style="display:none;">Getting data. Please wait ...</strong>
+        <div class="loading spinner-border ml-auto text-info" role="status" aria-hidden="true" style="display:none;"></div>
+      </div>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Address</th>
+            <th scope="col">Comment</th>
+            <th scope="col">Mac Address</th>
+            <th scope="col">Host</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody id='tblbbody'>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="assets/js/jquery-3.4.1.min.js" ></script>
+    <script src="assets/js/bootstrap.bundle.min.js" ></script>
+
+    <script type="text/javascript">
+    $( document ).ready(function() {
+      $('#reload').on('click', function() {
+        $('.loading').show()
+        $.get( "server.php", function( data ) {
+          $('#tblbbody').html('')
+          for (var i = 0; i < data.length; i++) {
+
+            if (data[i].ping !== null) {
+              var status = "<span class='badge badge-success'>Online</span>";
+            } else {
+              var status = "<span class='badge badge-danger'>Offline</span>";
+            }
+
+            if (data[i].comment !== null) {
+              var comment = data[i].comment;
+            } else {
+              var comment = '';
+            }
+
+            $('#tblbbody').append("<tr> <th scope='row'>"+data[i].address+"</th> <td>"+comment+"</td> <td>"+data[i].macaddress+"</td> <td>"+data[i].host+"</td> <td>"+status+"</td> </tr>")
+          }
+          $('.loading').hide()
+        });
+      })
+      $('#reload').click()
+    });
+    </script>
+
+  </body>
+</html>
+
+<!-- https://api.github.com/repos/paradoxicalx/WaveApps-v1/branches -->
